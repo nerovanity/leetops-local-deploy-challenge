@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WEB_ROOT="/var/www/html"
+WEB_ROOT="/usr/share/nginx/html"
 LOCAL_FILE="index.html"
 TARGET_FILE="${WEB_ROOT}/index.html"
 WEB_SERVICE="nginx"
@@ -33,6 +33,9 @@ check ()
     fi
     if ! command -v systemctl > /dev/null; then
         fail "systemctl not available"
+    fi
+    if [ ! -f "/usr/sbin/${WEB_SERVICE}" ] && [ ! -f "/usr/bin/${WEB_SERVICE}" ]; then
+        fail "ngnix is not installed"
     fi
     if [ ! -d "${WEB_ROOT}" ]; then
         fail "The web root '${WEB_ROOT}' doesn't exist!"
